@@ -1,9 +1,12 @@
 function App() {
   /*Javascript Function*/
-  
+
   return (
     <>
-      <div>Hello World</div>
+      <section id="Header"></section>
+      <section id="task-input"> </section>
+      <section id="task-schedule"></section>
+      <section id="animation"></section>      
     </>
   )
 }
