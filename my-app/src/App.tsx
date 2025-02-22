@@ -9,6 +9,13 @@ function App() {
   /*Javascript Function*/
   const [input, setInput] = useState("");
   const [dayInput, setDayInput] = useState(""); // Stores the selected day input
+  
+  /* 
+  step 1: read in priority
+  step 2: where you store 
+  step 3: outcome list based on given priority
+  */
+
   const [task_items, setItems] = useState<{ [key: string]: string[] }>({
     Monday: [],
     Tuesday: [],
@@ -16,16 +23,21 @@ function App() {
     Thursday: [],
     Friday: [],
   }); // Stores tasks for each day
+  // key : array (string )
+  //
+
+   // read in input and store it in input
+   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setInput(event.target.value);
+  }; 
 
   // read in input and store it in dayInput
   const handleDayChange = (event: ChangeEvent<HTMLInputElement>) => {
     setDayInput(event.target.value);
   };
 
-  // read in input and store it in input
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setInput(event.target.value);
-  };
+  // add priority check
+
 
   const handleAddItem = () => {
     if (input.trim() !== "") { // Prevent empty input
