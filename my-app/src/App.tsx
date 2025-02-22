@@ -27,12 +27,24 @@ function App() {
         
         <input style={{ marginRight: '20px' , marginLeft:'20px', width: '500px', borderRadius: '8px',padding: '8px', border: '1px solid #ccc'}} 
           type="text" placeholder="Enter task..." /> 
+        
         <input style ={{marginRight: '20px', width: ' 75px', borderRadius: '8px', padding: '8px', border: '1px solid #ccc'}} 
           type="text" placeholder="Top priority"/>
+        
         <input style ={{marginRight: '20px', width: '125px', borderRadius: '8px', padding: '8px', border: '1px solid #ccc'}} 
-          type="text" placeholder="dd/mm      📅"/>
+          type="text" placeholder="Choose a Day" list = "days"/>
+          <datalist id="days">
+            <option value="Monday" />
+            <option value="Tuesday" />
+            <option value="Wednesday" />
+            <option value="Thursday" />
+            <option value="Friday" />
+          </datalist>
+        
         <input style ={{marginRight: '20px', width: '100px', borderRadius: '8px', padding: '8px', border: '1px solid #ccc'}} 
           type="text" placeholder="Add text"/>
+
+        
 
         <button 
           style={{
