@@ -2,9 +2,45 @@ import './Header.css';
 import './task-input.css';
 import './task-schedule.css';
 import './animation.css';
+import { useState, ChangeEvent } from 'react';
+
 
 function App() {
   /*Javascript Function*/
+  const [input, setInput] = useState("");
+  const [dayInput, setDayInput] = useState(""); // Stores the selected day input
+  const [task_items, setItems] = useState<{ [key: string]: string[] }>({
+    Monday: [],
+    Tuesday: [],
+    Wednesday: [],
+    Thursday: [],
+    Friday: [],
+  }); // Stores tasks for each day
+
+  // read in input and store it in dayInput
+  const handleDayChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setDayInput(event.target.value);
+  };
+
+  // read in input and store it in input
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setInput(event.target.value);
+  };
+
+  const handleAddItem = () => {
+    if (input.trim() !== "") { // Prevent empty input
+      setItems((prevItems) => ({
+        ...prevItems,
+        [dayInput]: [...prevItems[dayInput], input]
+      })); // Add new input to the selected day array
+      setInput(""); // Clear input field after adding
+      setDayInput("");
+    }
+  };
+
+
+
+
 
   return (
     <>
@@ -25,14 +61,14 @@ function App() {
           margin: '0 auto'     
         }}>
         
-        <input style={{ marginRight: '20px' , marginLeft:'20px', width: '500px', borderRadius: '8px',padding: '8px', border: '1px solid #ccc'}} 
-          type="text" placeholder="Enter task..." /> 
+        <input type = "text" value={input} onChange={handleChange} style={{ marginRight: '20px' , marginLeft:'20px', width: '500px', borderRadius: '8px',padding: '8px', border: '1px solid #ccc'}} 
+         placeholder="Enter task..." /> 
         
         <input style ={{marginRight: '20px', width: ' 75px', borderRadius: '8px', padding: '8px', border: '1px solid #ccc'}} 
           type="text" placeholder="Top priority"/>
         
-        <input style ={{marginRight: '20px', width: '125px', borderRadius: '8px', padding: '8px', border: '1px solid #ccc'}} 
-          type="text" placeholder="Choose a Day" list = "days"/>
+        <input type = "text" value={dayInput} onChange={handleDayChange} style ={{marginRight: '20px', width: '125px', borderRadius: '8px', padding: '8px', border: '1px solid #ccc'}} 
+          placeholder="Choose a Day" list = "days"/>
           <datalist id="days">
             <option value="Monday" />
             <option value="Tuesday" />
@@ -47,6 +83,7 @@ function App() {
         
 
         <button 
+          onClick={handleAddItem}
           style={{
             marginLeft: '450px',
             padding: '10px 20px',
@@ -83,11 +120,41 @@ function App() {
               <div>Friday</div>
           </div>
           <div className="Calendar_View">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+            <div id="Monday">
+              <ul>
+                {task_items.Monday.map((task, index) => (
+                  <li key={index}>{task}</li>
+                  ))}
+              </ul>
+            </div>
+            <div id="Tuesday">
+              <ul>
+                {task_items.Tuesday.map((task, index) => (
+                  <li key={index}>{task}</li>
+                  ))}
+              </ul>
+            </div>
+            <div id="Wednesday">
+              <ul>
+                {task_items.Wednesday.map((task, index) => (
+                  <li key={index}>{task}</li>
+                  ))}
+              </ul>
+            </div>
+            <div id="Thursday">
+              <ul>
+                {task_items.Thursday.map((task, index) => (
+                  <li key={index}>{task}</li>
+                  ))}
+              </ul>
+            </div>
+            <div id="Friday">
+              <ul>
+                {task_items.Friday.map((task, index) => (
+                  <li key={index}>{task}</li>
+                  ))}
+              </ul>
+            </div>
 
             </div>
         </div>

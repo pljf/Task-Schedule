@@ -34,9 +34,29 @@
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow */
 }
+.Calendar_View > div > ul {
+    display: flex;
+    flex-direction: column;
+    max-width: 50%;
+    max-height: 60vh;
+    list-style: none;
+    align-items: center;
 
-.Calendar_View > div:hover {
-    background-color: #e8f5e9;  /* Light green on hover */
+}
+.Calendar_View > div > ul > li{
+    width: fit-content;
+    height: fit-content;
+    margin-bottom: 10%;
+    border: 2px solid black;
+    border-radius: 15px;
+    padding: 10px;
+    font-size: x-large;
+}
+
+.Calendar_View > div > ul > li:hover {
+    background-color: #36a73f;  /* Light green on hover */
+    border: 2px solid black;
+    transform: scale(1.3);
     cursor: pointer;  /* Shows pointer on hover */
 }
 
