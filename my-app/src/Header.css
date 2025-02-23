@@ -1,8 +1,12 @@
 :root {
+    color-scheme: antiwhite;
     font-size: xx-large;
-    font-family: 'Wendy One', sans-serif;
+    font-family: 'Orbitron, sans-serif';
     overflow-y: scroll;
     overflow-x: hidden;
+    --cp-color-17-hsl: 225deg 9.52% 8.24%;
+    --cp-color-17: hsl(var(--cp-color-17-hsl));
+    --cp-bg: var(--cp-color-17);
 }
 
 html, body {
@@ -21,7 +25,8 @@ Header{
     justify-content: space-between;
     flex-wrap: wrap-reverse;
     padding: 25px;
-    background: linear-gradient(to right, #283048, #859398);
+    color-scheme: dark;
+    background: var(--cp-bg);    
 }
 
 .text-style{

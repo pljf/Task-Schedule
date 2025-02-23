@@ -6,16 +6,30 @@
 }
 .calendar_week {
     text-align: center;
-    background-color: #4a148c; /* Deep purple */
+    background-color: hsl(225, 9.52%, 15%); 
     color: white;
-    padding: 10px;
+    border-bottom: 2px solid white;
+    padding: 20px;
 }
 
 .Calendar_day{
     display: flex;
     flex-direction: row; /* Ensures children are aligned in a row */
     justify-content: space-around;
+    background-color:antiquewhite;
+    padding: 20px;
     flex-wrap: wrap;
+}
+
+.Calendar_day > div {
+    color:black;
+    padding: 5px;
+    border-radius: 15px;
+    border-bottom: 0.5px solid black;
+}
+.Calendar_day > div:hover {
+    transform: scale(1.05);
+    cursor: pointer;
 }
 
 .Calendar_View {
@@ -23,17 +37,23 @@
     flex-direction: row; /* Ensures children are aligned in a row */
     justify-content: space-between;
     width: 100%;
-    background-image: linear-gradient(to right, #f3e5f5, #e1bee7); /* Soft lavender gradient */
-    height: 60vh; /* Fills 60% of the viewport height */
+    height: 60vh;
+    max-height: 60vh;
+
 }
 
 .Calendar_View > div {
-    background-color: #f9fbe7;  /* Very light yellow */
+    background: linear-gradient(135deg, #a1a1a1, #add8e6);
     color: #2c3e50; /* Dark gray text */
     padding: 15px;
     border-radius: 5px;
+    border-right: 1px solid black;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow */
 }
+.Calendar_View > div:hover {
+    transform: scale(1.05);
+}
+
 .Calendar_View > div > ul {
     display: flex;
     flex-direction: column;
@@ -45,17 +65,18 @@
 }
 .Calendar_View > div > ul > li{
     width: fit-content;
-    height: fit-content;
+    max-height: 60vh;
     margin-bottom: 10%;
-    border: 2px solid black;
-    border-radius: 15px;
-    padding: 10px;
+    color:black;
+    background: linear-gradient(135deg, #ffffff, #dbddde);
+    border-radius: 5px;
+    padding: 15px;
     font-size: x-large;
 }
 
 .Calendar_View > div > ul > li:hover {
-    background-color: #36a73f;  /* Light green on hover */
     border: 2px solid black;
+    background-color: rgb(69, 62, 63);
     transform: scale(1.3);
     cursor: pointer;  /* Shows pointer on hover */
 }
@@ -69,4 +90,67 @@
 .Calendar_View div {
     flex: 1; /* Ensures each div takes equal space */
     text-align: center; /* Optional: Centers text within each div */
+}
+
+
+/* Small screens (Phones) */
+@media screen and (max-width: 600px) {
+    .Calendar_View {
+        flex-direction: column; 
+        height: auto;
+        max-height: none;
+    }
+    
+    .Calendar_day{
+        flex-direction: column;
+        height: fit-content;
+    }
+
+    .Calendar_View > div {
+        width: 100%; 
+        margin-bottom: 10px;
+    }
+
+    .Calendar_View > div > ul > li {
+        font-size: medium;
+    }
+}
+
+/* Medium screens (Tablets) */
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+    .Calendar_View {
+        flex-direction: row; 
+    }
+
+    .Calendar_View > div {
+        width: fit-content; 
+        height: fit-content;
+        margin-bottom: 10px;
+    }
+
+    .Calendar_View > div > ul > li {
+        font-size: large; 
+    }
+}
+
+/* Larger screens (Desktops, standard laptop/monitor sizes) */
+@media screen and (min-width: 1025px) and (max-width: 1250px) {
+    .Calendar_View {
+        flex-direction: row; 
+    }
+
+    .Calendar_View > div {
+        width: 15%; 
+    }
+}
+
+/* Very large screens (Desktops and wide monitors) */
+@media screen and (min-width: 1251px) {
+    .Calendar_View > div {
+        width: 20%; 
+    }
+
+    .Calendar_View > div > ul > li {
+        font-size: large; /* Adjust font size for very large screens */
+    }
 }

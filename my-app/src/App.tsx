@@ -10,12 +10,8 @@ function App() {
   const [input, setInput] = useState("");
   const [dayInput, setDayInput] = useState(""); // Stores the selected day input
   const [priority, setPriority] = useState("");
-
-  /*
-  step 1: read in priority
-  step 2: where you store 
-  step 3: outcome list based on given priority
-  */
+  const max_task = 5;
+  const [monthInput, setMonth] = useState("");
 
   const [task_items, setItems] = useState<{ [key: string]: { task: string, priority: string }[] }>({
     Monday: [],
@@ -24,9 +20,11 @@ function App() {
     Thursday: [],
     Friday: [],
   }); // Stores tasks for each day
-  // key : array (string )
-  //
-  
+
+  const handleMonthChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setMonth(event.target.value);
+  };
+
   const handlePriorityChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPriority(event.target.value);
   };
@@ -43,10 +41,9 @@ function App() {
   };
 
   // add priority check
-
-
   const handleAddItem = () => {
-    if (input.trim() !== "" && dayInput.trim() !== "" && priority.trim() !== "") { 
+
+    if (input.trim() !== "" && dayInput.trim() !== "" && priority.trim() !== "" && task_items[dayInput].length < max_task) { 
         setItems((prevItems) => ({
             ...prevItems,
             [dayInput]: [...prevItems[dayInput], { task: input, priority: priority }]
@@ -56,6 +53,14 @@ function App() {
         setDayInput(""); 
         setPriority(""); 
     }
+
+    else if (task_items[dayInput].length >= max_task){
+      alert("You've hit the task limit for today! Looks like your day is fully booked—time to spread the love to another day!");
+    }
+    
+    else {
+      alert("Missing Information, Try Again!");
+    }
   };
 
   const handleDeleteItem = (day: string, index: number) => {
@@ -63,12 +68,8 @@ function App() {
         ...prevItems,
         [day]: prevItems[day].filter((_, i) => i !== index)
     }));
+    alert("Congratulations! You’ve either conquered a task or bravely set it free! 🎉");
   };
-
-
-
-
-
 
   return (
     <>
@@ -81,10 +82,11 @@ function App() {
       </section>
 
       <section id="task-input">
+
         <div style={{ 
           border: '2px solid #000', 
-          padding: '20px',     
-          backgroundColor: '#99FFFF',
+          padding: '20px',
+          backgroundColor:  'hsl(225, 9.52%, 15%)',
           maxWidth: '100%', 
           margin: '0 auto'     
         }}>
@@ -115,9 +117,8 @@ function App() {
             <option value="Friday" />
           </datalist>
         
-        <input 
-        style ={{marginRight: '20px', width: '100px', borderRadius: '8px', padding: '8px', border: '1px solid #ccc'}} 
-        type="text" placeholder="Add text"/>
+        <input type = "text" value={monthInput} onChange={handleMonthChange}
+        style ={{marginRight: '20px', width: '100px', borderRadius: '8px', padding: '8px', border: '1px solid #ccc'}}  placeholder="Add Month"/>
 
         
 
@@ -125,32 +126,35 @@ function App() {
           onClick={handleAddItem}
           style={{
             marginLeft: '50px',
-            padding: '10px 20px',
-            backgroundColor: '#007BFF', 
-            color: '#FFF', 
-            border: 'none', 
+            padding: '10px 15px',
+            backgroundColor: 'hsl(0, 0%, 25%)', 
+            fontFamily: 'Orbitron, sans-serif',
+            width:'fit-content',
+            color: 'white', 
+            border: 'none',
             borderRadius: '5px', 
             cursor: 'pointer', 
-            fontSize: '16px',
+            fontSize: '18px',
+            boxShadow: '0px 0px 1px 4px rgba(233, 233, 233, 0.8)', // Strong gray shadow
             transition: 'background-color 0.3s, transform 0.1s'
           }}
           onMouseDown={(e) => {
-            e.currentTarget.style.backgroundColor = '#0056b3'; 
+            e.currentTarget.style.backgroundColor = 'hsl(45, 5.60%, 14.10%)';
             e.currentTarget.style.transform = 'scale(0.95)'; 
           }}
           onMouseUp={(e) => {
-            e.currentTarget.style.backgroundColor = '#007BFF';
+            e.currentTarget.style.backgroundColor = 'hsl(0, 0%, 25%)';
             e.currentTarget.style.transform = 'scale(1)';
           }}
         >
-          Add
+          add      
         </button>
 
         </div>
       </section>
       <section id="task-schedule">
         <div className="lay_out1">
-          <div className="calendar_week">What Month</div>
+          <div className="calendar_week">{monthInput}</div>
           <div className="Calendar_day">
               <div>Monday</div>
               <div>Tuesday</div>
@@ -164,8 +168,8 @@ function App() {
                       <ul>
                         {task_items[day].map((item, index) => (
                             <li key={index}>
-                                {item.priority}. {item.task} 
-                                <button onClick={() => handleDeleteItem(day, index)}>❌</button>
+                                {item.priority}. {item.task} &nbsp;
+                                <button onClick={() => handleDeleteItem(day, index)}> ✓ </button>
                             </li>
                             ))}
                       </ul>
