@@ -9,14 +9,15 @@ function App() {
   /*Javascript Function*/
   const [input, setInput] = useState("");
   const [dayInput, setDayInput] = useState(""); // Stores the selected day input
-  
-  /* 
+  const [priority, setPriority] = useState("");
+
+  /*
   step 1: read in priority
   step 2: where you store 
   step 3: outcome list based on given priority
   */
 
-  const [task_items, setItems] = useState<{ [key: string]: string[] }>({
+  const [task_items, setItems] = useState<{ [key: string]: { task: string, priority: string }[] }>({
     Monday: [],
     Tuesday: [],
     Wednesday: [],
@@ -25,6 +26,11 @@ function App() {
   }); // Stores tasks for each day
   // key : array (string )
   //
+  
+  const handlePriorityChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setPriority(event.target.value);
+  };
+
 
    // read in input and store it in input
    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -40,15 +46,25 @@ function App() {
 
 
   const handleAddItem = () => {
-    if (input.trim() !== "") { // Prevent empty input
-      setItems((prevItems) => ({
-        ...prevItems,
-        [dayInput]: [...prevItems[dayInput], input]
-      })); // Add new input to the selected day array
-      setInput(""); // Clear input field after adding
-      setDayInput("");
+    if (input.trim() !== "" && dayInput.trim() !== "" && priority.trim() !== "") { 
+        setItems((prevItems) => ({
+            ...prevItems,
+            [dayInput]: [...prevItems[dayInput], { task: input, priority: priority }]
+                .sort((a, b) => Number(a.priority) - Number(b.priority)) 
+        }));
+        setInput(""); 
+        setDayInput(""); 
+        setPriority(""); 
     }
   };
+
+  const handleDeleteItem = (day: string, index: number) => {
+    setItems((prevItems) => ({
+        ...prevItems,
+        [day]: prevItems[day].filter((_, i) => i !== index)
+    }));
+  };
+
 
 
 
@@ -73,14 +89,24 @@ function App() {
           margin: '0 auto'     
         }}>
         
-        <input type = "text" value={input} onChange={handleChange} style={{ marginRight: '20px' , marginLeft:'20px', width: '500px', borderRadius: '8px',padding: '8px', border: '1px solid #ccc'}} 
-         placeholder="Enter task..." /> 
+        <input type = "text" value={input} onChange={handleChange} 
+        style={{ marginRight: '20px' , marginLeft:'20px', width: '500px', borderRadius: '8px',padding: '8px', border: '1px solid #ccc'}} 
+        placeholder="Enter task..." /> 
         
-        <input style ={{marginRight: '20px', width: ' 75px', borderRadius: '8px', padding: '8px', border: '1px solid #ccc'}} 
-          type="text" placeholder="Top priority"/>
-        
-        <input type = "text" value={dayInput} onChange={handleDayChange} style ={{marginRight: '20px', width: '125px', borderRadius: '8px', padding: '8px', border: '1px solid #ccc'}} 
-          placeholder="Choose a Day" list = "days"/>
+        <input type="text" value={priority} onChange={handlePriorityChange} 
+        style={{ marginRight: '20px', width: '75px', borderRadius: '8px', padding: '8px', border: '1px solid #ccc'}} 
+        placeholder="Priority (1-5)" list = "pri"/>
+        <datalist id="pri">
+            <option value="1" />
+            <option value="2" />
+            <option value="3" />
+            <option value="4" />
+            <option value="5" />
+          </datalist>
+
+        <input type = "text" value={dayInput} onChange={handleDayChange} 
+        style ={{marginRight: '20px', width: '125px', borderRadius: '8px', padding: '8px', border: '1px solid #ccc'}} 
+        placeholder="Choose a Day" list = "days"/>
           <datalist id="days">
             <option value="Monday" />
             <option value="Tuesday" />
@@ -89,15 +115,16 @@ function App() {
             <option value="Friday" />
           </datalist>
         
-        <input style ={{marginRight: '20px', width: '100px', borderRadius: '8px', padding: '8px', border: '1px solid #ccc'}} 
-          type="text" placeholder="Add text"/>
+        <input 
+        style ={{marginRight: '20px', width: '100px', borderRadius: '8px', padding: '8px', border: '1px solid #ccc'}} 
+        type="text" placeholder="Add text"/>
 
         
 
         <button 
           onClick={handleAddItem}
           style={{
-            marginLeft: '450px',
+            marginLeft: '50px',
             padding: '10px 20px',
             backgroundColor: '#007BFF', 
             color: '#FFF', 
@@ -131,44 +158,21 @@ function App() {
               <div>Thursday</div>
               <div>Friday</div>
           </div>
-          <div className="Calendar_View">
-            <div id="Monday">
-              <ul>
-                {task_items.Monday.map((task, index) => (
-                  <li key={index}>{task}</li>
-                  ))}
-              </ul>
-            </div>
-            <div id="Tuesday">
-              <ul>
-                {task_items.Tuesday.map((task, index) => (
-                  <li key={index}>{task}</li>
-                  ))}
-              </ul>
-            </div>
-            <div id="Wednesday">
-              <ul>
-                {task_items.Wednesday.map((task, index) => (
-                  <li key={index}>{task}</li>
-                  ))}
-              </ul>
-            </div>
-            <div id="Thursday">
-              <ul>
-                {task_items.Thursday.map((task, index) => (
-                  <li key={index}>{task}</li>
-                  ))}
-              </ul>
-            </div>
-            <div id="Friday">
-              <ul>
-                {task_items.Friday.map((task, index) => (
-                  <li key={index}>{task}</li>
-                  ))}
-              </ul>
-            </div>
-
-            </div>
+            <div className="Calendar_View">
+               {Object.keys(task_items).map((day) => (
+                  <div key={day} id={day}>
+                      <ul>
+                        {task_items[day].map((item, index) => (
+                            <li key={index}>
+                                {item.priority}. {item.task} 
+                                <button onClick={() => handleDeleteItem(day, index)}>❌</button>
+                            </li>
+                            ))}
+                      </ul>
+                  </div>
+                ))}
+            </div>         
+            
         </div>
       </section>
       <section id="animation"></section>      
