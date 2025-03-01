@@ -97,7 +97,7 @@ function App() {
         
         <input type="text" value={priority} onChange={handlePriorityChange} 
         style={{ marginRight: '20px', width: '75px', borderRadius: '8px', padding: '8px', border: '1px solid #ccc'}} 
-        placeholder="Priority (1-5)" list = "pri"/>
+        placeholder="Priority" list = "pri"/>
         <datalist id="pri">
             <option value="1" />
             <option value="2" />
